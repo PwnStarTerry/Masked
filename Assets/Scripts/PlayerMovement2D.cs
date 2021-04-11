@@ -8,6 +8,7 @@ public class PlayerMovement2D : MonoBehaviour
 
     private Vector2 moveDir;
     private Rigidbody2D rb;
+
     // Start is called before the first frame update
     void Start() {
         rb = GetComponent<Rigidbody2D>();
@@ -20,5 +21,16 @@ public class PlayerMovement2D : MonoBehaviour
 
     void FixedUpdate() {
         rb.velocity = moveDir * speed;
+
+        if(Input.GetButton("Sprint")){
+            rb.velocity = moveDir * (speed * 2);
+        }
+        if(Input.GetButtonDown("Dodge")){
+            dodge();
+        }
+    }
+
+    void dodge(){
+        // TODO: Move the player a specific length of space quickly/introduce i-frames
     }
 }
