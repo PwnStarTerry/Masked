@@ -4,33 +4,32 @@ using UnityEngine;
 
 public class PlayerMovement2D : MonoBehaviour
 {
-    [SerializeField] private int speed = 6;
+    [SerializeField] private float speed = 5f;
 
-    private Vector2 moveDir;
-    private Rigidbody2D rb;
+    private Rigidbody2D rigidbody2d;
+    private Vector3 moveDir;
+    private bool isSprintButtonDown;
 
     // Start is called before the first frame update
     void Start() {
-        rb = GetComponent<Rigidbody2D>();
+        rigidbody2d = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update() {
         moveDir = (transform.right * Input.GetAxisRaw("Horizontal") + transform.up * Input.GetAxisRaw("Vertical")).normalized;
+
+        if(Input.GetButton("Sprint")){
+            isSprintButtonDown = true;
+        }
     }
 
     void FixedUpdate() {
-        rb.velocity = moveDir * speed;
+        rigidbody2d.velocity = moveDir * speed;
 
-        if(Input.GetButton("Sprint")){
-            rb.velocity = moveDir * (speed * 2);
+        if(isSprintButtonDown){
+            rigidbody2d.velocity = moveDir * (speed * 2);
+            isSprintButtonDown = false;
         }
-        if(Input.GetButtonDown("Dodge")){
-            dodge();
-        }
-    }
-
-    void dodge(){
-        // TODO: Move the player a specific length of space quickly/introduce i-frames
     }
 }
